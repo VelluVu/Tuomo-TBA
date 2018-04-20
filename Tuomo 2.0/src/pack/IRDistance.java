@@ -1,4 +1,4 @@
-package pack;
+
 
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.sensor.EV3IRSensor;
