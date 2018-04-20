@@ -1,32 +1,23 @@
 package pack;
 
 import lejos.hardware.Button;
+import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
-import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.port.MotorPort;
-import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3IRSensor;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
-public class AutoDrive extends Thread {
-	private RegulatedMotor lMotor;
-	private RegulatedMotor rMotor;
+public class AutoDrive{
 	private EV3IRSensor irSensor;
 	private IRDistance irDistance;
 	private Motor motor;
 	private static int drive = 1;
 
-	public static void main(String[] args) {
-		new AutoDrive();
-	}
 
-	public AutoDrive() {
-		lMotor = new EV3LargeRegulatedMotor(MotorPort.D);
-		rMotor = new EV3LargeRegulatedMotor(MotorPort.A);
-		irSensor = new EV3IRSensor(SensorPort.S1);
+	public AutoDrive(EV3IRSensor irSensor, RegulatedMotor lMotor, RegulatedMotor rMotor) {
+		this.irSensor = irSensor;
 		irDistance = new IRDistance(irSensor);
-		motor = new Motor(lMotor, rMotor);
+		motor = new Motor(lMotor, rMotor); 
 
 	}
 
@@ -53,9 +44,9 @@ public class AutoDrive extends Thread {
 	}
 
 	public void homing() {
-		drive = 1;
+		//drive = 1;
 		switch (drive) {
-
+		
 		case 1:
 			motor.driveForward();
 			drive++;
@@ -89,12 +80,16 @@ public class AutoDrive extends Thread {
 			float distance = irDistance.getDistance();
 			Delay.msDelay(1);
 			LCD.drawInt(new Float(distance).intValue(), 8, 1);
-			if (distance > 20 && drive >= 1) {
+			while (distance > 20 && drive >= 1) {
 				homing();
 			}
-			if (distance <= 20) {
-				grab();
+			while (distance <= 20) {
+				motor.stopMotors();
 			}
 		}
+		irSensor.close();
+		motor.closeMotors();
+		Delay.msDelay(10);
+		System.exit(0);
 	}
 }
