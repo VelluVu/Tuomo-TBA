@@ -1,5 +1,7 @@
 package pack;
 
+import java.io.IOException;
+
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
@@ -18,13 +20,13 @@ public class RemoteControlMain {
 	
 	private Motor m;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
 		new RemoteControlMain();
 
 	}
 
-	public RemoteControlMain() {
+	public RemoteControlMain() throws IOException {
 
 		// Sensors and motors
 		// REMEMBER TO CHECK PORTS!!!
@@ -37,6 +39,7 @@ public class RemoteControlMain {
 		
 		m = new Motor(leftMotor, rightMotor);
 		AutoDrive checkerThread = new AutoDrive();
+		
 		while (!Button.ESCAPE.isDown()) {
 			LCD.drawString("Enter or right", 0, 0);
 			int keycode = Button.waitForAnyPress();
@@ -45,11 +48,9 @@ public class RemoteControlMain {
 			switch (keycode) {
 			case Button.ID_ENTER:
 				checkerThread.start();
-				Delay.msDelay(10);
 				break;
 			case Button.ID_RIGHT:
 				remoteAndDistanceLoop();
-				Delay.msDelay(10);
 				break;
 			}
 		}
@@ -60,8 +61,11 @@ public class RemoteControlMain {
 		System.exit(0);
 	}
 
-	public void remoteAndDistanceLoop() {
-
+	public void remoteAndDistanceLoop() throws IOException {
+		
+		EV3Receive controllerInputs = new EV3Receive();
+		controllerInputs.start();
+		
 		Sound.twoBeeps();
 
 		while (!Button.ESCAPE.isDown()) {
@@ -83,9 +87,11 @@ public class RemoteControlMain {
 			Delay.msDelay(100);
 
 			// Remote channel set to 4 on remote
-			int remoteInput = irSensor.getRemoteCommand(3);
+			//int remoteInput = irSensor.getRemoteCommand(3);
+			
+			int controllerKeycode = controllerInputs.getContorllerButton();
 
-			switch (remoteInput) {
+			switch (controllerKeycode) {
 
 			case 1:
 				// drive forward
