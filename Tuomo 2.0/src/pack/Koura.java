@@ -8,13 +8,40 @@ import lejos.utility.Delay;
 public class Koura {
 	//muuttujia
 	private RegulatedMotor koura;
+	private RegulatedMotor nostaja;
 	private boolean ote;
+	private boolean nosto;
 
-	public Koura (RegulatedMotor koura) {
+	public Koura (RegulatedMotor koura, RegulatedMotor nostaja) {
 		this.koura = koura;
+		this.nostaja = nostaja;
 		this.ote = false;
+		this.nosto = false;
 		this.koura.setSpeed(500);
 		
+	}
+	public boolean onkoOte () {
+		return ote;
+	}
+	public void nosta() {
+		if (ote == true && nosto == false) {
+			nostaja.forward();
+			nosto = true;
+			Delay.msDelay(1000);
+		} else {
+			nostaja.stop();
+		}
+		nostaja.stop();
+	}
+	public void laske() {
+		if (ote == false && nosto == true) {
+			nostaja.backward();
+			nosto = false;
+			Delay.msDelay(1000);
+		} else {
+			nostaja.stop();
+		}
+		nostaja.stop();
 	}
 	//ottaa esineen haltuun ja tallentaa sen ote booleaniin
 	public void autoKaappaa() {
@@ -63,3 +90,4 @@ public class Koura {
 		koura.stop();
 	}
 }	
+
