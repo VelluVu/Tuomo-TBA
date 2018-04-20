@@ -1,29 +1,31 @@
 package pack;
-
-import lejos.hardware.Button;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.sensor.EV3IRSensor;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
-public class AutoDrive{
+public class AutoDrive {
 	private EV3IRSensor irSensor;
 	private IRDistance irDistance;
 	private Motor motor;
 	private static int drive = 1;
 
-
 	public AutoDrive(EV3IRSensor irSensor, RegulatedMotor lMotor, RegulatedMotor rMotor) {
 		this.irSensor = irSensor;
 		irDistance = new IRDistance(irSensor);
-		motor = new Motor(lMotor, rMotor); 
+		motor = new Motor(lMotor, rMotor);
 
 	}
 
-	public void grab() {
+	public float checkDistance() {
 		irSensor.getDistanceMode();
 		float distance = irDistance.getDistance();
+		return distance;
+
+	}
+
+	public int grab() {
 
 		drive = 0;
 		int spinR = 0;
@@ -32,21 +34,21 @@ public class AutoDrive{
 			motor.spinRight();
 			spinR++;
 			Delay.msDelay(10);
-		} while (distance <= 20);
-		if ((distance >= 20 && spinR > 0) || (distance <= 20 && spinR > 0 && spinL > 0)) {
+		} while (checkDistance() <= 20);
+		if ((checkDistance() >= 20 && spinR > 0) || (checkDistance() <= 20 && spinR > 0 && spinL > 0)) {
 			do {
 				motor.spinLeft();
 				spinL++;
 				Delay.msDelay(10);
-			} while (distance <= 20);
+			} while (checkDistance() <= 20);
 		}
-
+		return spinL++;
 	}
 
 	public void homing() {
-		//drive = 1;
+		// drive = 1;
 		switch (drive) {
-		
+
 		case 1:
 			motor.driveForward();
 			drive++;
@@ -76,14 +78,11 @@ public class AutoDrive{
 	public void run() {
 		while (!Button.ESCAPE.isDown()) {
 			LCD.clear(0);
-			irSensor.getDistanceMode();
-			float distance = irDistance.getDistance();
-			Delay.msDelay(1);
-			LCD.drawInt(new Float(distance).intValue(), 8, 1);
-			while (distance > 20 && drive >= 1) {
+			LCD.drawInt(new Float(checkDistance()).intValue(), 8, 1);
+			while (checkDistance() > 20 && drive >= 1) {
 				homing();
 			}
-			while (distance <= 20) {
+			while (checkDistance() <= 20 || drive == 0) {
 				motor.stopMotors();
 			}
 		}
