@@ -25,23 +25,35 @@ public class AutoDrive {
 
 	}
 
-	public void grab() {
-
-		drive = 0;
-		int spinR = 0;
-		int spinL = 0;
-		do {
-			motor.spinRight();
-			spinR++;
-			Delay.msDelay(10);
-		} while (checkDistance() <= 20);
-		if ((checkDistance() >= 20 && spinR > 0) || (checkDistance() <= 20 && spinR > 0 && spinL > 0)) {
-			do {
-				motor.spinLeft();
-				spinL++;
-				Delay.msDelay(10);
-			} while (checkDistance() <= 20);
+	public void run() {
+		int adjust = 0;
+		while (!Button.ESCAPE.isDown()) {
+			LCD.clear(0);
+			LCD.drawInt(new Float(checkDistance()).intValue(), 8, 1);
+			if (checkDistance() > 20 && drive >= 1) {
+				homing();
+			} else {
+				drive = 0;
+				switch (adjust) {
+				case 1:
+					adjustRight();
+					Delay.msDelay(500);
+					adjust++;
+					break;
+				case 2:
+					adjustLeft();
+					Delay.msDelay(500);
+					adjust++;
+					break;
+				case 3:
+					motor.stopMotors();
+				}
+			}
 		}
+		irSensor.close();
+		motor.closeMotors();
+		Delay.msDelay(10);
+		System.exit(0);
 	}
 
 	public void homing() {
@@ -64,7 +76,7 @@ public class AutoDrive {
 			if (div >= 100 && div < 200 && checkDistance() > 20) {
 				motor.spinLeft();
 				div++;
-				Delay.msDelay(5);
+				Delay.msDelay(10);
 			} else {
 				drive++;
 
@@ -75,7 +87,7 @@ public class AutoDrive {
 			if (div >= 200 && div < 300 && checkDistance() > 20) {
 				motor.spinRight();
 				div++;
-				Delay.msDelay(10);
+				Delay.msDelay(5);
 			} else {
 				drive++;
 
@@ -86,7 +98,7 @@ public class AutoDrive {
 			if (div <= 300 && div < 400 && checkDistance() > 20) {
 				motor.spinLeft();
 				div++;
-				Delay.msDelay(5);
+				Delay.msDelay(10);
 			} else {
 				drive++;
 
@@ -99,20 +111,22 @@ public class AutoDrive {
 		}
 	}
 
-	public void run() {
-		while (!Button.ESCAPE.isDown()) {
-			LCD.clear(0);
-			LCD.drawInt(new Float(checkDistance()).intValue(), 8, 1);
-			if (checkDistance() > 20 && drive >= 1) {
-				homing();
-			} else {
+	public void adjustRight() {
+		do {
+			motor.spinRight();
+			Delay.msDelay(5);
+		} while (checkDistance() <= 20);
 
-				motor.stopMotors();
-			}
-		}
-		irSensor.close();
-		motor.closeMotors();
-		Delay.msDelay(10);
-		System.exit(0);
 	}
+
+	public int adjustLeft() {
+		int spin = 0;
+		do {
+			motor.spinLeft();
+			spin++;
+			Delay.msDelay(5);
+		} while (checkDistance() <= 20);
+		return spin;
+	}
+
 }
