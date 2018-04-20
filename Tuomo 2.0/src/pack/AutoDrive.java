@@ -94,6 +94,7 @@ public class AutoDrive {
 			break;
 		case 5:
 			drive = 1;
+			div = 0;
 			break;
 		}
 	}
