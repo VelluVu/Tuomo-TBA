@@ -17,7 +17,7 @@ public class RemoteControlMain {
 	private RegulatedMotor leftMotor;
 	private RegulatedMotor rightMotor;
 	private EV3IRSensor irSensor;
-	
+
 	private Motor m;
 
 	public static void main(String[] args) throws IOException {
@@ -36,10 +36,14 @@ public class RemoteControlMain {
 		leftMotor = new EV3LargeRegulatedMotor(MotorPort.D);
 		rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
 		irSensor = new EV3IRSensor(SensorPort.S1);
-		
+
 		m = new Motor(leftMotor, rightMotor);
+<<<<<<< HEAD
 		AutoDrive checkerThread = new AutoDrive();
 		
+=======
+		AutoDrive checkerThread = new AutoDrive(irSensor, leftMotor, rightMotor);
+>>>>>>> 779eae98bdcc576bfb48fac8462f0d52aeba5d6a
 		while (!Button.ESCAPE.isDown()) {
 			LCD.drawString("Enter or right", 0, 0);
 			int keycode = Button.waitForAnyPress();
@@ -47,7 +51,12 @@ public class RemoteControlMain {
 			// Start listening remote inputs
 			switch (keycode) {
 			case Button.ID_ENTER:
+<<<<<<< HEAD
 				checkerThread.start();
+=======
+				checkerThread.run();
+				Delay.msDelay(10);
+>>>>>>> 779eae98bdcc576bfb48fac8462f0d52aeba5d6a
 				break;
 			case Button.ID_RIGHT:
 				remoteAndDistanceLoop();

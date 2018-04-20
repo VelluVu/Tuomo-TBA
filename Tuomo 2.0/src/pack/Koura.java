@@ -23,21 +23,24 @@ public class Koura {
 	public boolean onkoOte () {
 		return ote;
 	}
-	public void nosta() {
+	
+	//AUTOMAATTI METODIT:
+	
+	public void autoNosta() {
 		if (ote == true && nosto == false) {
 			nostaja.forward();
 			nosto = true;
-			Delay.msDelay(1000);
+			Delay.msDelay(1150);
 		} else {
 			nostaja.stop();
 		}
 		nostaja.stop();
 	}
-	public void laske() {
-		if (ote == false && nosto == true) {
+	public void autoLaske() {
+		if (ote == true && nosto == false) {
 			nostaja.backward();
 			nosto = false;
-			Delay.msDelay(1000);
+			Delay.msDelay(1150);
 		} else {
 			nostaja.stop();
 		}
@@ -49,9 +52,8 @@ public class Koura {
 		if (ote == false) {
 			
 			koura.backward();
-			Delay.msDelay(4000);
+			Delay.msDelay(3600);
 			ote = true;
-			Delay.msDelay(200);
 		}
 		koura.stop();
 		
@@ -62,9 +64,28 @@ public class Koura {
 		if (ote == true) {
 
 			koura.forward();
-			Delay.msDelay(4000);
+			Delay.msDelay(3600);
 			ote = false;
-			Delay.msDelay(200);
+		}
+		koura.stop();
+	}
+	
+	// MANUAALI METODIT:
+	
+	//tekee niinku metodin nimi sanoo ja ote pit‰‰ olla
+	public void manuaaliNosta() {
+		while (Button.UP.isDown() && ote == true) {
+			
+			koura.forward();
+			
+		}
+		koura.stop();
+	}
+	public void manuaaliLaske() {
+		while (Button.DOWN.isDown() && ote == true) {
+			
+			koura.backward();
+			
 		}
 		koura.stop();
 	}
