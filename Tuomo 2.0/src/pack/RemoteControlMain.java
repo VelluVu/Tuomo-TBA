@@ -1,3 +1,4 @@
+package pack;
 
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
