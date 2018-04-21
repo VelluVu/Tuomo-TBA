@@ -10,7 +10,7 @@ public class BaldursGateTheme {
 	public BaldursGateTheme() {
 		
 	}
-	private void playBGtheme(final Audio audio) {
+	public void playBGtheme(final Audio audio) {
 		Thread t = new Thread() {
 			@Override
 			public void run() {
