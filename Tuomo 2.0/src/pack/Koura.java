@@ -36,7 +36,7 @@ public class Koura {
 		if (ote == true && nosto == false) {
 			nostaja.forward();
                         //nostaja.rotateTo(90);
-                        //kulma = getTachoCount();
+                        //kulma = nostaja.getTachoCount();
                         //LCD.clear(0);
                         //LCD.drawString(""+kulma,0,0);
 			nosto = true;
@@ -51,7 +51,7 @@ public class Koura {
 		if (ote == true && nosto == false) {
 			nostaja.backward();
                         //nostaja.rotateTo(-90);
-                        //kulma = getTachoCount();
+                        //kulma = nostaja.getTachoCount();
                         //LCD.clear(1);
                         //LCD.drawString(""+kulma,0,1);
 			nosto = false;
@@ -68,7 +68,7 @@ public class Koura {
 			
 			koura.backward();
                         //koura.rotateTo(-180);
-                        //kulma2 = getTachoCount();
+                        //kulma2 = koura.getTachoCount();
                         //LCD.clear(2);
                         //LCD.drawString(""+kulma2,0,2);
 			Delay.msDelay(3600);
@@ -84,7 +84,7 @@ public class Koura {
 
 			koura.forward();
                         //koura.rotateTo(180);
-                        //kulma2 = getTachoCount();
+                        //kulma2 = koura.getTachoCount();
                         //LCD.clear(3);
                         //LCD.drawString(""+kulma2,0,3);
 			Delay.msDelay(3600);
