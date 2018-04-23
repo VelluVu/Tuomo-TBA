@@ -10,6 +10,7 @@ public class AutoDrive {
 	private IRDistance irDistance;
 	private Motor motor;
 	private static int drive = 1;
+	private static int spin = 0;
 
 	public AutoDrive(EV3IRSensor irSensor, RegulatedMotor lMotor, RegulatedMotor rMotor) {
 		this.irSensor = irSensor;
@@ -119,14 +120,21 @@ public class AutoDrive {
 
 	}
 
-	public int adjustLeft() {
-		int spin = 0;
+	public void adjustLeft() {
 		do {
 			motor.spinLeft();
-			spin++;
+			setSpin(getSpin() + 1);
 			Delay.msDelay(5);
 		} while (checkDistance() <= 20);
+		
+	}
+
+	public static int getSpin() {
 		return spin;
+	}
+
+	public static void setSpin(int spin) {
+		AutoDrive.spin = spin;
 	}
 
 }
