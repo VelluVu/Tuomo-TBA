@@ -26,6 +26,14 @@ public class AutoDrive {
 
 	}
 
+	public static int getSpin() {
+		return spin;
+	}
+
+	public static void setSpin(int spin) {
+		AutoDrive.spin = spin;
+	}
+
 	public void run() {
 		int adjust = 0;
 		while (!Button.ESCAPE.isDown()) {
@@ -47,7 +55,13 @@ public class AutoDrive {
 					adjust++;
 					break;
 				case 3:
+					adjustMiddle();
+					adjust++;
+					Delay.msDelay(500);
+					break;
+				case 4:
 					motor.stopMotors();
+					break;
 				}
 			}
 		}
@@ -63,43 +77,44 @@ public class AutoDrive {
 
 		switch (drive) {
 		case 1:
+			div++;
+			Delay.msDelay(10);
 			if (div < 100 && checkDistance() > 20) {
 				motor.driveForward();
-				div++;
-				Delay.msDelay(10);
+
 			} else {
 				drive++;
 
 			}
 			break;
 		case 2:
-
+			div++;
+			Delay.msDelay(10);
 			if (div >= 100 && div < 200 && checkDistance() > 20) {
 				motor.spinLeft();
-				div++;
-				Delay.msDelay(10);
+
 			} else {
 				drive++;
 
 			}
 			break;
 		case 3:
-
+			div++;
+			Delay.msDelay(10);
 			if (div >= 200 && div < 300 && checkDistance() > 20) {
 				motor.spinRight();
-				div++;
-				Delay.msDelay(5);
+
 			} else {
 				drive++;
 
 			}
 			break;
 		case 4:
-
+			div++;
+			Delay.msDelay(10);
 			if (div <= 300 && div < 400 && checkDistance() > 20) {
 				motor.spinLeft();
-				div++;
-				Delay.msDelay(10);
+
 			} else {
 				drive++;
 
@@ -126,15 +141,16 @@ public class AutoDrive {
 			setSpin(getSpin() + 1);
 			Delay.msDelay(5);
 		} while (checkDistance() <= 20);
-		
+
 	}
 
-	public static int getSpin() {
-		return spin;
-	}
-
-	public static void setSpin(int spin) {
-		AutoDrive.spin = spin;
+	public void adjustMiddle() {
+		int x = 0;
+		do {
+			motor.spinRight();
+			x++;
+			Delay.msDelay(5 * getSpin() / 2);
+		} while (x < 1);
 	}
 
 }
