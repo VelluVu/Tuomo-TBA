@@ -20,6 +20,7 @@ public class Koura {
 		this.ote = false;
 		this.nosto = false;
 		this.koura.setSpeed(500);
+		this.nostaja.setSpeed(100);
 		//this.kulma = 0;
 		//this.kulma2 = 0;
 
