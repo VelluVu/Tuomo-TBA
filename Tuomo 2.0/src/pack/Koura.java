@@ -11,8 +11,8 @@ public class Koura {
 	private RegulatedMotor nostaja;
 	private boolean ote;
 	private boolean nosto;
-	private int kulma;
-	private int kulma2;
+	//private int kulma;
+	//private int kulma2;
 
 	public Koura (RegulatedMotor koura, RegulatedMotor nostaja) {
 		this.koura = koura;
@@ -20,8 +20,8 @@ public class Koura {
 		this.ote = false;
 		this.nosto = false;
 		this.koura.setSpeed(500);
-		this.kulma = 0;
-		this.kulma2 = 0;
+		//this.kulma = 0;
+		//this.kulma2 = 0;
 
 	}
 	public boolean onkoOte () {
