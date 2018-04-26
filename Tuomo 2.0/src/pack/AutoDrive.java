@@ -6,24 +6,19 @@ import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
 public class AutoDrive {
-	private boolean dDrive;
+
 	private EV3IRSensor irSensor;
 	private IRDistance irDistance;
 	private Motor motor;
 	private Koura koura;
 	private static int drive = 1;
-	// private static int spin = 0;
 
 	public AutoDrive(EV3IRSensor irSensor, RegulatedMotor lMotor, RegulatedMotor rMotor, Koura tuomonKoura) {
 		this.irSensor = irSensor;
-		this.dDrive = true;
+
 		irDistance = new IRDistance(irSensor);
 		motor = new Motor(lMotor, rMotor);
 		this.koura = tuomonKoura;
-	}
-
-	public boolean checkDrive() {
-		return dDrive;
 	}
 
 	public float checkDistance() {
@@ -33,25 +28,14 @@ public class AutoDrive {
 	}
 
 	public void grab() {
-		int finish = 0;
 		drive = 0;
 		this.koura.autoKaappaa();
 		this.koura.autoNosta();
-		if (dDrive = true) {
-			motor.driveBackward();
-			Delay.msDelay(2000);
-			dDrive = false;
-		} else if (dDrive = false) {
-			motor.stopMotors();
-			this.koura.autoLaske();
-			this.koura.autoIrtiTuomo();
-			finish = 1;
-		} else if (finish == 1) {
-			motor.driveBackward();
-			Delay.msDelay(200);
-			motor.stopMotors();
-			finish = 0;
-		}
+		motor.driveBackward();
+		Delay.msDelay(500);
+		motor.stopMotors();
+		this.koura.autoLaske();
+		this.koura.autoIrtiTuomo();
 	}
 
 	public void run() {
@@ -61,14 +45,15 @@ public class AutoDrive {
 			LCD.drawInt(new Float(checkDistance()).intValue(), 8, 1);
 			if (checkDistance() > 40 && drive >= 1) {
 				homing();
-			} else if (checkDistance() < 40) {
-				do {
-					motor.driveForward();
-				} while (checkDistance() > 27);
+			} else if (checkDistance() > 27 && checkDistance() <= 40 && drive >= 1) {
+				motor.driveForward();
 			} else if (checkDistance() <= 27) {
+				motor.stopMotors();
 				grab();
-
-			}
+				// adjust = 1;
+			} /*
+				 * else if (adjust == 1) { grab(); }
+				 */
 		}
 		irSensor.close();
 		motor.closeMotors();
@@ -78,14 +63,14 @@ public class AutoDrive {
 
 	public void homing() {
 		drive++;
-		Delay.msDelay(1);
-		if (drive < 1000) {
+		Delay.msDelay(10);
+		if (drive < 100) {
 			motor.driveForward();
-		} else if (drive >= 1000 && drive < 1400) {
+		} else if (drive >= 100 && drive < 140) {
 			motor.spinLeft();
-		} else if (drive >= 1400 && drive < 2150) {
+		} else if (drive >= 140 && drive < 220) {
 			motor.spinRight();
-		} else if (drive >= 2150 && drive < 2550) {
+		} else if (drive >= 220 && drive < 260) {
 			motor.spinLeft();
 		} else {
 			drive = 1;
