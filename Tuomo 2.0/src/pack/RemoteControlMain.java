@@ -1,171 +1,57 @@
 package pack;
 
-import java.io.IOException;
+import java.io.File;
 
+import lejos.hardware.Audio;
+import lejos.hardware.BrickFinder;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
+import lejos.hardware.ev3.EV3;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3IRSensor;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
-public class RemoteControlMain {
+public class TuomoMaini {
 
-	private RegulatedMotor leftMotor;
-	private RegulatedMotor rightMotor;
-	private EV3IRSensor irSensor;
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		RegulatedMotor koura = new EV3MediumRegulatedMotor(MotorPort.C);
+		RegulatedMotor nostaja = new EV3MediumRegulatedMotor(MotorPort.B);
+		RegulatedMotor lmotor = new EV3LargeRegulatedMotor(MotorPort.D);
+		RegulatedMotor rmotor = new EV3LargeRegulatedMotor(MotorPort.A);
+		EV3IRSensor irSensor = new EV3IRSensor(SensorPort.S1);
+		Koura tuomonKoura = new Koura(koura, nostaja);
+		AutoDrive automaatti = new AutoDrive(irSensor, lmotor, rmotor, tuomonKoura);
+		TuomoBox musiikki = new TuomoBox();
+		boolean painettu = false;
+		musiikki.tuomoBox();
 
-	private Motor m;
-
-	public static void main(String[] args) throws IOException {
-
-		new RemoteControlMain();
-
-	}
-
-	public RemoteControlMain() throws IOException {
-
-		// Sensors and motors
-		// REMEMBER TO CHECK PORTS!!!
-		// Infrared: S1
-		// Left motor: D
-		// Right motor: A
-		leftMotor = new EV3LargeRegulatedMotor(MotorPort.D);
-		rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
-		irSensor = new EV3IRSensor(SensorPort.S1);
-
-		m = new Motor(leftMotor, rightMotor);
-<<<<<<< HEAD
-		AutoDrive checkerThread = new AutoDrive();
-		
-=======
-		AutoDrive checkerThread = new AutoDrive(irSensor, leftMotor, rightMotor);
->>>>>>> 779eae98bdcc576bfb48fac8462f0d52aeba5d6a
 		while (!Button.ESCAPE.isDown()) {
-			LCD.drawString("Enter or right", 0, 0);
-			int keycode = Button.waitForAnyPress();
-			LCD.clear();
-			// Start listening remote inputs
-			switch (keycode) {
-			case Button.ID_ENTER:
-<<<<<<< HEAD
-				checkerThread.start();
-=======
-				checkerThread.run();
-				Delay.msDelay(10);
->>>>>>> 779eae98bdcc576bfb48fac8462f0d52aeba5d6a
-				break;
-			case Button.ID_RIGHT:
-				remoteAndDistanceLoop();
-				break;
-			}
+			if (Button.LEFT.isDown() && painettu == false) {
+				LCD.drawString("LEFT", 0, 0);
+				//manuaali.ajo();
+				/*tuomonKoura.autoKaappaa();
+			tuomonKoura.autoNosta();*/
+				painettu = true;
+			} else if (Button.RIGHT.isDown() && painettu == false) {
+				//automaatti.run();
+				/*tuomonKoura.autoIrtiTuomo();*/
+				painettu = true;
+			} 
+			painettu = false;
+			/*tuomonKoura.autoLaske();*/
 		}
-		// Close ports and exit program
+
+		koura.close();
+		nostaja.close();
+		lmotor.close();
+		rmotor.close();
 		irSensor.close();
-		m.closeMotors();
-		Delay.msDelay(10);
-		System.exit(0);
+		LCD.clear();
 	}
-
-	public void remoteAndDistanceLoop() throws IOException {
-		
-		EV3Receive controllerInputs = new EV3Receive();
-		controllerInputs.start();
-		
-		Sound.twoBeeps();
-
-		while (!Button.ESCAPE.isDown()) {
-			/*
-			 * 1 TOP-LEFT 2 BOTTOM-LEFT 3 TOP-RIGHT 4 BOTTOM-RIGHT 5 TOP-LEFT + TOP-RIGHT 6
-			 * TOP-LEFT + BOTTOM-RIGHT 7 BOTTOM-LEFT + TOP-RIGHT 8 BOTTOM-LEFT +
-			 * BOTTOM-RIGHT 9 CENTRE/BEACON 10 BOTTOM-LEFT + TOP-LEFT 11 TOP-RIGHT +
-			 * BOTTOM-RIGHT
-			 */
-
-			LCD.clear(3);
-
-			// IR sensor distance checking disabled
-			// due to conflicting readings with
-			// remote inputs.
-
-			// irSensor.getDistanceMode();
-			// float distance = irDistance.getDistance();
-			Delay.msDelay(100);
-
-			// Remote channel set to 4 on remote
-			//int remoteInput = irSensor.getRemoteCommand(3);
-			
-			int controllerKeycode = controllerInputs.getContorllerButton();
-
-			switch (controllerKeycode) {
-
-			case 1:
-				// drive forward
-				LCD.drawString("forward", 1, 3);
-				// if(distance < 20) break;
-				m.resetMotorSpeed();
-				m.driveForward();
-				break;
-			case 2:
-				// drive backward
-				LCD.drawString("backward", 1, 3);
-				m.resetMotorSpeed();
-				m.driveBackward();
-				break;
-			case 3:
-				// spin right
-				LCD.drawString("spin right", 1, 3);
-				m.resetMotorSpeed();
-				m.spinRight();
-				break;
-			case 4:
-				// spin left
-				LCD.drawString("spin left", 1, 3);
-				m.resetMotorSpeed();
-				m.spinLeft();
-				break;
-			case 5:
-				// turn right
-				LCD.drawString("turn right", 1, 3);
-				// if(distance < 20) break;
-				m.turnRightForward();
-				break;
-			case 6:
-				// turn left
-				LCD.drawString("turn left", 1, 3);
-				// if(distance < 20) break;
-				m.turnLeftForward();
-				break;
-			case 7:
-				// turn back right
-				LCD.drawString("turn back right", 1, 3);
-				m.turnRightBackward();
-				break;
-			case 8:
-				// turn back left
-				LCD.drawString("turn back left", 1, 3);
-				m.turnLeftBackward();
-				break;
-			case 9:
-				// BEEP
-				LCD.drawString("BEEP", 4, 3);
-				Sound.beep();
-				// smallMotor.forward();
-				break;
-			default:
-				// stop motors
-				LCD.drawString("waiting input...", 1, 3);
-				// smallMotor.stop();
-				m.stopMotors();
-				m.resetMotorSpeed();
-				break;
-			}
-			LCD.refresh();
-			Delay.msDelay(10);
-		}
-	}
-
 }

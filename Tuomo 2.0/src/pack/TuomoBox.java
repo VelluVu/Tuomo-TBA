@@ -1,11 +1,14 @@
 package pack;
 
 import java.io.File;
+import java.util.Random;
 
 import lejos.hardware.Audio;
+import lejos.hardware.Button;
+import lejos.hardware.Sound;
 import lejos.utility.Delay;
 
-public class TuomoBox extends Thread {
+public class TuomoBox {
 	final File soundFileBG;
 	final File soundFileNyan;
 	final File soundFileMario;
@@ -27,20 +30,22 @@ public class TuomoBox extends Thread {
 		this.soundFileMK = new File("MKtheme.wav");
 		this.soundFileHF = new File("HalfLife.wav");
 		this.soundFileDA = new File("DAtheme.wav");
-
+		
 	}
 	public void tuomoBox() {
 		this.biisiValinta();
 		Thread t = new Thread(){
 			@Override
 			public void run() {
-
+				
 				Sound.playSample(soundFile, 100);
 
 			}
 		};
 		t.setDaemon(true);
+		
 		t.start();
+		
 	}
 	public void biisiValinta() {
 		
