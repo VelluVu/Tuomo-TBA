@@ -153,4 +153,8 @@ public class Koura {
 		}
 		this.koura.stop();
 	}
+	public void close() {
+		this.koura.close();
+		this.nostaja.close();
+	}
 }

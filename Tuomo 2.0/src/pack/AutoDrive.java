@@ -59,6 +59,7 @@ public class AutoDrive {
 		this.kKoura.autoIrtiTuomo();
 		irSensor.close();
 		motor.closeMotors();
+		this.kKoura.close();
 		/*
 		 * motor.driveBackward(); Delay.msDelay(500); motor.stopMotors();
 		 * this.koura.autoLaske(); this.koura.autoIrtiTuomo();
