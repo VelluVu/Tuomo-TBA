@@ -162,8 +162,10 @@ public class EV3Receive {
 	// Asettaa moottorien tehot ohjaimen arvojen mukaan.
 	public void drive(float leftM, float rightM) {
 
-		float leftPower = (leftM / 100) * 720;
-		float rightPower = (rightM / 100) * 720;
+		float max = left.getMaxSpeed();
+		
+		float leftPower = (leftM / 100) * max;
+		float rightPower = (rightM / 100) * max;
 
 		if (leftPower >= 0) {
 			left.forward();
