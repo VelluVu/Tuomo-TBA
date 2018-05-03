@@ -12,8 +12,8 @@ public class AutoDrive {
 	// jolla mitataan ajon pituutta
 	private EV3IRSensor irSensor;
 	private IRDistance irDistance;
-	private leftMotor = new EV3LargeRegulatedMotor(MotorPort.D);
-	private rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+	RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.D);
+	RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
 	private Motor motor;
 	private Koura koura;
 	private static int drive = 1;
@@ -58,7 +58,6 @@ public class AutoDrive {
 
 	// ajaa ohjelman
 	public void run() {
-		
 		// int adjust = 0;
 		while (!Button.ESCAPE.isDown()) {
 			LCD.clear(0);
