@@ -57,8 +57,8 @@ public class AutoDrive {
 		motor.stopMotors();
 		this.kKoura.autoLaske();
 		this.kKoura.autoIrtiTuomo();
+		irSensor.close();
 		motor.closeMotors();
-		System.exit(0);
 		/*
 		 * motor.driveBackward(); Delay.msDelay(500); motor.stopMotors();
 		 * this.koura.autoLaske(); this.koura.autoIrtiTuomo();
@@ -79,14 +79,13 @@ public class AutoDrive {
 				motor.stopMotors();
 				grab();
 				// adjust = 1;
-			} /*
+			}
+				/*
+			}
 				 * else if (adjust == 1) { grab(); }
 				 */
 		}
-		irSensor.close();
-		motor.closeMotors();
-		Delay.msDelay(10);
-		System.exit(0);
+
 	}
 
 	// ajaa ja etsii etsii esinettä
