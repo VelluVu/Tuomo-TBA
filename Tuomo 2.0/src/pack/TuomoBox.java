@@ -8,7 +8,7 @@ import java.util.Random;
  * Includes two methods, which manipulate the soundFile.
  * For Musiikki class.
  * 
- * @author TBA
+ * @author Vellu
  * @version 2.0
  * @since 3.5.2018
  */

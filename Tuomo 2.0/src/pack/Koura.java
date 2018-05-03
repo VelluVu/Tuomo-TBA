@@ -11,7 +11,7 @@ import lejos.utility.Delay;
  * Koura class of the Lego mindstorm program.
  * Usefull claw methods for AutoDrive class and ManualDrive class.
  * 
- * @author Veli-Matti Vuoti
+ * @author Vellu
  * @version 2.0
  * @since 3.5.2018
  */
