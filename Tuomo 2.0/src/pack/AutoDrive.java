@@ -18,19 +18,19 @@ public class AutoDrive {
 	private Koura kKoura;
 	private RegulatedMotor rMotor;
 	private RegulatedMotor lMotor;
-	//private RegulatedMotor koura;
-	//private RegulatedMotor nostaja;
+	// private RegulatedMotor koura;
+	// private RegulatedMotor nostaja;
 	private static int drive = 1;
 
 	public AutoDrive() {
-		
+
 		this.lMotor = new EV3LargeRegulatedMotor(MotorPort.D);
 		this.rMotor = new EV3LargeRegulatedMotor(MotorPort.A);
-		
+
 		this.irSensor = new EV3IRSensor(SensorPort.S1);
-		
+
 		this.irDistance = new IRDistance(irSensor);
-		this.motor = new Motor(lMotor,rMotor);
+		this.motor = new Motor(lMotor, rMotor);
 		this.kKoura = new Koura();
 	}
 
@@ -57,9 +57,7 @@ public class AutoDrive {
 		motor.stopMotors();
 		this.kKoura.autoLaske();
 		this.kKoura.autoIrtiTuomo();
-		irSensor.close();
-		motor.closeMotors();
-		this.kKoura.close();
+		drive = -1;
 		/*
 		 * motor.driveBackward(); Delay.msDelay(500); motor.stopMotors();
 		 * this.koura.autoLaske(); this.koura.autoIrtiTuomo();
@@ -76,15 +74,19 @@ public class AutoDrive {
 			if (checkDistance() > 40 && drive >= 1) {
 				homing();
 				// katsoo etäisyyden pysähtyy ja aloittaa esineen nostamisen funktion
-			} else if (checkDistance() <= 40) {
+			} else if (checkDistance() <= 40 && drive != -1) {
 				motor.stopMotors();
 				grab();
+
 				// adjust = 1;
+			} else {
+				irSensor.close();
+				motor.closeMotors();
+				this.kKoura.close();
 			}
-				/*
-			}
-				 * else if (adjust == 1) { grab(); }
-				 */
+			/*
+			 * } else if (adjust == 1) { grab(); }
+			 */
 		}
 
 	}
@@ -162,6 +164,5 @@ public class AutoDrive {
 	// x++;
 	// } while (x < 1);
 	// }
-
 
 }
