@@ -1,4 +1,5 @@
 package pack;
+
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.sensor.EV3IRSensor;
@@ -6,7 +7,8 @@ import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
 public class AutoDrive {
-
+	// Määrittää moottorin, kouran, sensorin ja etäisyyden mittaamisen ja arvon
+	// jolla mitataan ajon pituutta
 	private EV3IRSensor irSensor;
 	private IRDistance irDistance;
 	private Motor motor;
@@ -21,33 +23,46 @@ public class AutoDrive {
 		this.koura = tuomonKoura;
 	}
 
+	// Etäisyyden mittaamisen palautus arvo
 	public float checkDistance() {
 		irSensor.getDistanceMode();
 		float distance = irDistance.getDistance();
 		return distance;
 	}
 
+	// Ajaa esineeseen kiinni nostaa ilmaan vie sen johonkin ja laskee sen
 	public void grab() {
 		drive = 0;
+		motor.driveForward();
+		Delay.msDelay(100);
+		motor.stopMotors();
 		this.koura.autoKaappaa();
 		this.koura.autoNosta();
-		motor.driveBackward();
+		motor.spinLeft();
+		Delay.msDelay(200);
+		motor.stopMotors();
+		motor.driveForward();
 		Delay.msDelay(500);
 		motor.stopMotors();
 		this.koura.autoLaske();
 		this.koura.autoIrtiTuomo();
+		/*
+		 * motor.driveBackward(); Delay.msDelay(500); motor.stopMotors();
+		 * this.koura.autoLaske(); this.koura.autoIrtiTuomo();
+		 */
 	}
 
+	// ajaa ohjelman
 	public void run() {
 		// int adjust = 0;
 		while (!Button.ESCAPE.isDown()) {
 			LCD.clear(0);
 			LCD.drawInt(new Float(checkDistance()).intValue(), 8, 1);
+			// katsoo etäisyyden ja ajon ajan määrittävän arvon
 			if (checkDistance() > 40 && drive >= 1) {
 				homing();
-			} else if (checkDistance() > 27 && checkDistance() <= 40 && drive >= 1) {
-				motor.driveForward();
-			} else if (checkDistance() <= 27) {
+				// katsoo etäisyyden pysähtyy ja aloittaa esineen nostamisen funktion
+			} else if (checkDistance() <= 40) {
 				motor.stopMotors();
 				grab();
 				// adjust = 1;
@@ -61,6 +76,7 @@ public class AutoDrive {
 		System.exit(0);
 	}
 
+	// ajaa ja etsii etsii esinettä
 	public void homing() {
 		drive++;
 		Delay.msDelay(10);
@@ -112,7 +128,7 @@ public class AutoDrive {
 	// public void adjustRight() {
 	// do {
 	// motor.spinRight();
-	// } while (checkDistance() <= 27);
+	// } while (checkDistance() == 27);
 	//
 	// }
 
@@ -121,7 +137,7 @@ public class AutoDrive {
 	// motor.spinLeft();
 	// setSpin(getSpin() + 1);
 	// Delay.msDelay(1);
-	// } while (checkDistance() <= 27);
+	// } while (checkDistance() == 27);
 	//
 	// }
 	//
