@@ -8,8 +8,8 @@ public class Motor {
 	private RegulatedMotor rightMotor;
 
 	public Motor(RegulatedMotor leftMotor, RegulatedMotor rightMotor) {
-		this.leftMotor = leftMotor;
-		this.rightMotor = rightMotor;
+		this.leftMotor =  leftMotor;
+		this.rightMotor =  rightMotor;
 		this.leftMotor.synchronizeWith(new RegulatedMotor[] { rightMotor });
 		resetMotorSpeed();
 	}
