@@ -43,7 +43,7 @@ public class TuomoMain {
 				RegulatedMotor rmotor = new EV3LargeRegulatedMotor(MotorPort.A);
 				Motor motor = new Motor(lmotor, rmotor);
 				Koura tuomonKoura = new Koura(koura, nostaja);*/
-				
+				LCD.clear();
 				AutoDrive automaatti = new AutoDrive();
 				automaatti.startAuto();
 				
