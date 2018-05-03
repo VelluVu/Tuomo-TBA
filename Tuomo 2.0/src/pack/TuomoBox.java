@@ -3,13 +3,17 @@ package pack;
 import java.io.File;
 import java.util.Random;
 
-import lejos.hardware.Audio;
-import lejos.hardware.Button;
-import lejos.hardware.Sound;
-import lejos.utility.Delay;
+/**
+ * TuomoBox class of the Lego mindstorm program. 
+ * Includes two methods, which manipulate the soundFile.
+ * For Musiikki class.
+ * 
+ * @author TBA
+ * @version 2.0
+ * @since 3.5.2018
+ */
 
 public class TuomoBox {
-	//biisit
 	final File soundFileBG;
 	final File soundFileNyan;
 	final File soundFileMario;
@@ -21,8 +25,10 @@ public class TuomoBox {
 	final File soundFileDA;
 	File soundFile;
 
+	/**
+	 * Initializes Files with wav files, which are stored in robots memory.
+	 */
 	public TuomoBox () {
-		//alustaa filen
 		this.soundFileBG = new File("BGthememusic.wav");
 		this.soundFileNyan = new File("NyanCat.wav");
 		this.soundFileMario = new File("SuperMario.wav");
@@ -34,7 +40,7 @@ public class TuomoBox {
 		this.soundFileDA = new File("DAtheme.wav");
 		
 	}
-	//threadi yritys
+	//first attempt for music play.
 	/*
 	public void tuomoBox() {
 		
@@ -54,7 +60,12 @@ public class TuomoBox {
 		
 		
 	}*/
-	//random valitsee kappaleen 0-8
+	
+	/**
+	 * This method is used to randomly initialize the soundFile with different options.
+	 * @return soundFile this returns random soundFile.
+	 */
+	
 	public File biisiValinta() {
 		
 		switch (this.randomGen()) {
@@ -88,7 +99,12 @@ public class TuomoBox {
 		}
 		return soundFile;
 	}
-	//luo random kokonaisluvun 0-8
+	
+	/**
+	 * This method generates random integer.
+	 * @return random.nextInt(9) this returns random int 0-8.
+	 */
+	
 	private int randomGen () {
 		Random random = new Random();
 		return random.nextInt(9);
