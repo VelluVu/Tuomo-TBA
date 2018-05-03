@@ -14,8 +14,6 @@ public class AutoDrive {
 	private IRDistance irDistance;
 	private RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.D);
 	private RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
-	RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.D);
-	RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
 	private Motor motor;
 	private Koura koura;
 	private static int drive = 1;
