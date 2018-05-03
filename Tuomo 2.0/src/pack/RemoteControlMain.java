@@ -49,13 +49,30 @@ public class TuomoMaini {
 				//automaatti.run();	
 				
 			} else if (Button.UP.isDown()) {
+				LCD.clear(5);
+				music.changeSong();
 				music.start();
+				}
+				catch (Exception e)
+				{
+					
+					LCD.drawString("Vituiks meni1", 0, 5);
+
+				}
 			} else if (Button.DOWN.isDown()) {
+				try {
+					LCD.clear(5);
 				music.interrupt();
+				}
+				catch (Exception e) 
+				{
+				
+					LCD.drawString("Vituiks meni2", 0, 5);
+				}
 			}
 		}
 		
-		
+		music.stop();
 		/*koura.close();
 		nostaja.close();
 		lmotor.close();
