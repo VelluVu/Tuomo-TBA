@@ -14,20 +14,19 @@ public class AutoDrive {
 	// jolla mitataan ajon pituutta
 	private EV3IRSensor irSensor;
 	private IRDistance irDistance;
-	private RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.D);
-	private RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
-	RegulatedMotor koura = new EV3MediumRegulatedMotor(MotorPort.C);
-	RegulatedMotor nostaja = new EV3MediumRegulatedMotor(MotorPort.B);
 	private Motor motor;
 	private Koura kKoura;
-	Koura tuomonKoura = new Koura(koura, nostaja);
+	private RegulatedMotor rMotor;
+	private RegulatedMotor lMotor;
+	private RegulatedMotor koura;
+	private RegulatedMotor nostaja;
 	private static int drive = 1;
 
-	public AutoDrive(EV3IRSensor irSensor, Koura tuomonKoura) {
+	public AutoDrive(EV3IRSensor irSensor, Koura tuomonKoura, Motor motor) {
 		this.irSensor = irSensor;
-		irDistance = new IRDistance(irSensor);
-		motor = new Motor(leftMotor, rightMotor);
-		kKoura = tuomonKoura;
+		this.irDistance = new IRDistance(irSensor);
+		this.motor = new Motor(lMotor,rMotor);
+		this.kKoura = new Koura(koura,nostaja);
 	}
 
 	// Etäisyyden mittaamisen palautus arvo
@@ -158,5 +157,6 @@ public class AutoDrive {
 	// x++;
 	// } while (x < 1);
 	// }
+
 
 }
