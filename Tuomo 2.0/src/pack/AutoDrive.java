@@ -2,7 +2,7 @@ package pack;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
-import lejos.hardware.motor.EV3MediumRegulatedMotor;
+//import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3IRSensor;
@@ -18,15 +18,20 @@ public class AutoDrive {
 	private Koura kKoura;
 	private RegulatedMotor rMotor;
 	private RegulatedMotor lMotor;
-	private RegulatedMotor koura;
-	private RegulatedMotor nostaja;
+	//private RegulatedMotor koura;
+	//private RegulatedMotor nostaja;
 	private static int drive = 1;
 
-	public AutoDrive(EV3IRSensor irSensor, Koura tuomonKoura, Motor motor) {
-		this.irSensor = irSensor;
+	public AutoDrive() {
+		
+		this.lMotor = new EV3LargeRegulatedMotor(MotorPort.D);
+		this.rMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+		
+		this.irSensor = new EV3IRSensor(SensorPort.S1);
+		
 		this.irDistance = new IRDistance(irSensor);
 		this.motor = new Motor(lMotor,rMotor);
-		this.kKoura = new Koura(koura,nostaja);
+		this.kKoura = new Koura();
 	}
 
 	// Etäisyyden mittaamisen palautus arvo

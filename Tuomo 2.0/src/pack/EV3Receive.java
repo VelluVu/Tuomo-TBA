@@ -7,10 +7,9 @@ import java.net.Socket;
 
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
-import lejos.hardware.motor.UnregulatedMotor;
 import lejos.hardware.port.MotorPort;
-import lejos.robotics.EncoderMotor;
 import lejos.utility.Delay;
 
 public class EV3Receive {
@@ -19,13 +18,13 @@ public class EV3Receive {
 	private ServerSocket serv;
 	private DataInputStream in;
 	
-	private EncoderMotor emLeft, emRight;
+	private EV3LargeRegulatedMotor left, right;
 	private EV3MediumRegulatedMotor clawMotor, liftMotor;
 	
 	public EV3Receive() {
 		
-		this.emLeft = new UnregulatedMotor(MotorPort.D);
-		this.emRight = new UnregulatedMotor(MotorPort.A);
+		this.left = new EV3LargeRegulatedMotor(MotorPort.D);
+		this.right = new EV3LargeRegulatedMotor(MotorPort.A);
 		
 		this.clawMotor = new EV3MediumRegulatedMotor(MotorPort.C);
 		this.liftMotor = new EV3MediumRegulatedMotor(MotorPort.B);
@@ -64,8 +63,8 @@ public class EV3Receive {
 			String[] values = controllerInput.split(" ");
 			
 			// Liitetään teho arvot omiin muuttujiin ja muutetaan ne stringistä integeriksi.
-			int leftMotor = Integer.parseInt(values[0]);
-			int rightMotor = Integer.parseInt(values[1]);
+			float leftMotor = Float.parseFloat(values[0]);
+			float rightMotor = Float.parseFloat(values[1]);
 			
 			// Moottorien ajo metodi.
 			drive(leftMotor, rightMotor);
@@ -111,6 +110,7 @@ public class EV3Receive {
 				if(liftTacho >= 73 && !isUp) isUp = true;
 				if(liftTacho <= 1 && isUp) isUp = false;
 				
+				
 				clawMotor.stop(true);
 				liftMotor.stop(true);
 			}
@@ -134,17 +134,19 @@ public class EV3Receive {
 			s.close();
 			serv.close();
 		} catch (IOException e) {}
+		left.close();
+		right.close();
 		liftMotor.close();
 		clawMotor.close();
 	}
 	
 	// Asettaa moottorien tehot ohjaimen arvojen mukaan.
-	public void drive(int leftM, int rightM) {
-		int leftPower = leftM;
-		int rightPower = rightM;
+	public void drive(float leftM, float rightM) {
+		float leftPower = (leftM / 100) * 720;
+		float rightPower = (rightM / 100) * 720;
 		
-		emLeft.setPower(leftPower);
-		emRight.setPower(rightPower);
+		left.setSpeed(leftPower);
+		right.setSpeed(rightPower);
 	}
 
 }
