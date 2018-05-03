@@ -21,11 +21,7 @@ public class Musiikki extends Thread {
 		//soittaa kappaleita
 		
 		startSong();
-		startSong();
-		startSong();
-		startSong();
-		startSong();
-		startSong();
+		
 		
 	}
 	//pausettaa musiikin "kehitys kesken"

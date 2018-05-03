@@ -33,30 +33,44 @@ public class EV3Receive {
 	}
 
 	
-	public void startManualControl() throws IOException {
+	public void startManualControl() {
 		
+		// Tekee uuden socketin ja j‰‰ odottamaan ett‰
+		// PC yhdist‰‰ IP osoitteeseen 10.0.1.1 ja porttiin 1111.
 		try { this.serv = new ServerSocket(1111); } catch (IOException e) {}
 		LCD.drawString("Waiting PC...", 0, 2);
 		try { this.s = serv.accept(); } catch (IOException e) {}
 		
+		// Avaa data input streamin
 		try { this.in = new DataInputStream(s.getInputStream()); } catch (IOException e) {}
 		
 		LCD.clear();
 		LCD.drawString("Waiting input", 2, 2);
 		
+		// Asettaa kouran moottorin tehon 100%:iin ja 
+		// nosto moottorin tehon sopivaksi todettuun tehoon.
 		clawMotor.setSpeed(720);
 		liftMotor.setSpeed(80);
 		boolean isUp = false;
 		
 		while(!Button.ESCAPE.isDown()) {
 			
-			String controllerInput = in.readUTF();
+			// Lukee datan jonka PC l‰hett‰‰ ja liitt‰‰ sen muuttujaan.
+			String controllerInput = "";
+			try { controllerInput = in.readUTF(); } catch (IOException e) {}
+			
+			// Data on muotoa "'teho' 'teho' 'ohjaimen nappi'", esim. "100 80 1".
+			// Split metodi leikkaa stringin kolmeen osaan tekee niist‰ Arrayn.
 			String[] values = controllerInput.split(" ");
+			
+			// Liitet‰‰n teho arvot omiin muuttujiin ja muutetaan ne stringist‰ integeriksi.
 			int leftMotor = Integer.parseInt(values[0]);
 			int rightMotor = Integer.parseInt(values[1]);
 			
+			// Moottorien ajo metodi.
 			drive(leftMotor, rightMotor);
 			
+			// Liitet‰‰n ohjaimen n‰pp‰inkomento omaan muuttujaansa ja muutetaan integeriksi.
 			int controllerButtons = Integer.parseInt(values[2]);
 			int clawTacho = clawMotor.getTachoCount();
 			int liftTacho = liftMotor.getTachoCount();
@@ -115,12 +129,16 @@ public class EV3Receive {
 			Delay.msDelay(80);
 		}
 		
-		s.close();
-		serv.close();
+		// Suljetaan bluetooth yhteys, socketti ja moottori portit.
+		try {
+			s.close();
+			serv.close();
+		} catch (IOException e) {}
 		liftMotor.close();
 		clawMotor.close();
 	}
 	
+	// Asettaa moottorien tehot ohjaimen arvojen mukaan.
 	public void drive(int leftM, int rightM) {
 		int leftPower = leftM;
 		int rightPower = rightM;
