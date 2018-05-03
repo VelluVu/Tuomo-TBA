@@ -2,7 +2,9 @@ package pack;
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
+import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.MotorPort;
+import lejos.hardware.port.SensorPort;
 import lejos.hardware.sensor.EV3IRSensor;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
@@ -14,15 +16,18 @@ public class AutoDrive {
 	private IRDistance irDistance;
 	private RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.D);
 	private RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
+	RegulatedMotor koura = new EV3MediumRegulatedMotor(MotorPort.C);
+	RegulatedMotor nostaja = new EV3MediumRegulatedMotor(MotorPort.B);
 	private Motor motor;
-	private Koura koura;
+	private Koura kKoura;
+	Koura tuomonKoura = new Koura(koura, nostaja);
 	private static int drive = 1;
 
 	public AutoDrive(EV3IRSensor irSensor, Koura tuomonKoura) {
 		this.irSensor = irSensor;
-		this.irDistance = new IRDistance(irSensor);
-		this.motor = new Motor(leftMotor, rightMotor);
-		this.koura = tuomonKoura;
+		irDistance = new IRDistance(irSensor);
+		motor = new Motor(leftMotor, rightMotor);
+		kKoura = tuomonKoura;
 	}
 
 	// Etäisyyden mittaamisen palautus arvo
@@ -38,16 +43,16 @@ public class AutoDrive {
 		motor.driveForward();
 		Delay.msDelay(50);
 		motor.stopMotors();
-		this.koura.autoKaappaa();
-		this.koura.autoNosta();
+		this.kKoura.autoKaappaa();
+		this.kKoura.autoNosta();
 		motor.spinLeft();
 		Delay.msDelay(1000);
 		motor.stopMotors();
 		motor.driveForward();
 		Delay.msDelay(2000);
 		motor.stopMotors();
-		this.koura.autoLaske();
-		this.koura.autoIrtiTuomo();
+		this.kKoura.autoLaske();
+		this.kKoura.autoIrtiTuomo();
 		motor.closeMotors();
 		System.exit(0);
 		/*
@@ -57,7 +62,7 @@ public class AutoDrive {
 	}
 
 	// ajaa ohjelman
-	public void run() {
+	public void startAuto() {
 		// int adjust = 0;
 		while (!Button.ESCAPE.isDown()) {
 			LCD.clear(0);

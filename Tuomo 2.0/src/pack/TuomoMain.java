@@ -4,6 +4,11 @@ import java.io.IOException;
 
 import lejos.hardware.Button;
 import lejos.hardware.lcd.LCD;
+import lejos.hardware.motor.EV3MediumRegulatedMotor;
+import lejos.hardware.port.MotorPort;
+import lejos.hardware.port.SensorPort;
+import lejos.hardware.sensor.EV3IRSensor;
+import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
 public class TuomoMain {
@@ -20,6 +25,7 @@ public class TuomoMain {
 		TuomoBox musiikki = new TuomoBox();
 		Musiikki music = new Musiikki(musiikki);
 		EV3Receive manual = new EV3Receive();
+
 		
 		
 		
@@ -40,9 +46,7 @@ public class TuomoMain {
 				
 				
 			} else if (Button.RIGHT.isDown()) {
-				//tuomonKoura.autoLaske();
-				//tuomonKoura.autoIrtiTuomo();
-				//automaatti.run();	
+				AutoDrive.startAuto();
 				
 			} else if (Button.UP.isDown()) {
 				music.start();
