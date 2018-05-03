@@ -9,6 +9,7 @@ import lejos.hardware.Sound;
 import lejos.utility.Delay;
 
 public class TuomoBox {
+	//biisit
 	final File soundFileBG;
 	final File soundFileNyan;
 	final File soundFileMario;
@@ -21,6 +22,7 @@ public class TuomoBox {
 	File soundFile;
 
 	public TuomoBox () {
+		//alustaa filen
 		this.soundFileBG = new File("BGthememusic.wav");
 		this.soundFileNyan = new File("NyanCat.wav");
 		this.soundFileMario = new File("SuperMario.wav");
@@ -32,13 +34,16 @@ public class TuomoBox {
 		this.soundFileDA = new File("DAtheme.wav");
 		
 	}
+	//threadi yritys
+	/*
 	public void tuomoBox() {
+		
 		this.biisiValinta();
 		Thread t = new Thread(){
 			@Override
 			public void run() {
 				
-				Sound.playSample(soundFile, 100);
+				Sound.playSample(soundFile, 60);
 
 			}
 		};
@@ -46,8 +51,11 @@ public class TuomoBox {
 		
 		t.start();
 		
-	}
-	public void biisiValinta() {
+		
+		
+	}*/
+	//random valitsee kappaleen 0-8
+	public File biisiValinta() {
 		
 		switch (this.randomGen()) {
 		case 0:
@@ -78,7 +86,9 @@ public class TuomoBox {
 			this.soundFile = this.soundFileNyan;
 			break;
 		}
+		return soundFile;
 	}
+	//luo random kokonaisluvun 0-8
 	private int randomGen () {
 		Random random = new Random();
 		return random.nextInt(9);
