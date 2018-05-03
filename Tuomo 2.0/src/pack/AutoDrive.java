@@ -12,13 +12,10 @@ public class AutoDrive {
 	// jolla mitataan ajon pituutta
 	private EV3IRSensor irSensor;
 	private IRDistance irDistance;
-<<<<<<< HEAD
 	private RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.D);
 	private RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
-=======
 	RegulatedMotor leftMotor = new EV3LargeRegulatedMotor(MotorPort.D);
 	RegulatedMotor rightMotor = new EV3LargeRegulatedMotor(MotorPort.A);
->>>>>>> bf9a220b0eef124c835869389ee58936284ec556
 	private Motor motor;
 	private Koura koura;
 	private static int drive = 1;
