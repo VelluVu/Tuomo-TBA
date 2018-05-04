@@ -11,7 +11,7 @@ import lejos.utility.Delay;
  * Koura class of the Lego mindstorm program.
  * Usefull claw methods for AutoDrive class and ManualDrive class.
  * 
- * @author Vellu
+ * @author Veli-Matti Vuoti
  * @version 2.0
  * @since 3.5.2018
  */
@@ -28,12 +28,12 @@ public class Koura {
 	private boolean nosto;
 	private int kulma;
 	private int kulma2;
-
+	
+	/**
+	 * Initializes variables
+	 */
+	
 	public Koura() {
-		
-		/**
-		 * Initializes variables
-		 */
 		
 		this.koura = new EV3MediumRegulatedMotor(MotorPort.C);
 		this.nostaja = new EV3MediumRegulatedMotor(MotorPort.B);	
@@ -44,7 +44,12 @@ public class Koura {
 		this.kulma2 = 0;
 
 	}
-
+	
+	/**
+	 * This methods lets you check boolean ote status.
+	 * @return Boolean ote.
+	 */
+	
 	public boolean onkoOte() {
 		return this.ote;
 	}

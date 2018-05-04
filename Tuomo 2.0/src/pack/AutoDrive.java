@@ -9,39 +9,54 @@ import lejos.hardware.sensor.EV3IRSensor;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Delay;
 
+/**
+ * This class makes robot auto drive.
+ * 
+ * @author Ville
+ * @version 2.0
+ * @since 4.5.2018
+ */
+
 public class AutoDrive {
-	// M‰‰ritt‰‰ moottorin, kouran, sensorin ja et‰isyyden mittaamisen ja arvon
-	// jolla mitataan ajon pituutta
+	// defines motor, koura, sensor and distance measurement and its value.
 	private EV3IRSensor irSensor;
 	private IRDistance irDistance;
 	private Motor motor;
 	private Koura kKoura;
 	private RegulatedMotor rMotor;
 	private RegulatedMotor lMotor;
-	// private RegulatedMotor koura;
-	// private RegulatedMotor nostaja;
 	private static int drive = 1;
-
+	
+	/**
+	 * Initializes variables.
+	 */
+	
 	public AutoDrive() {
 
 		this.lMotor = new EV3LargeRegulatedMotor(MotorPort.D);
 		this.rMotor = new EV3LargeRegulatedMotor(MotorPort.A);
-
 		this.irSensor = new EV3IRSensor(SensorPort.S1);
-
 		this.irDistance = new IRDistance(irSensor);
 		this.motor = new Motor(lMotor, rMotor);
 		this.kKoura = new Koura();
 	}
 
-	// Et‰isyyden mittaamisen palautus arvo
+	/**
+	 * This method shows the distance.
+	 * @return distance This returns distance value as float.
+	 */
+	
 	public float checkDistance() {
 		irSensor.getDistanceMode();
 		float distance = irDistance.getDistance();
 		return distance;
 	}
 
-	// Ajaa esineeseen kiinni nostaa ilmaan vie sen johonkin ja laskee sen
+	/**
+	 *  This method drives close to the object and grabs it up, 
+	 *  then takes it to somewhere and puts it down.
+	 */
+	
 	public void grab() {
 		drive = 0;
 		motor.driveForward();
@@ -64,7 +79,9 @@ public class AutoDrive {
 		 */
 	}
 
-	// ajaa ohjelman
+	/**
+	 *  This method starts the auto drive.
+	 */
 	public void startAuto() {
 		// int adjust = 0;
 		while (!Button.ESCAPE.isDown()) {
@@ -91,7 +108,10 @@ public class AutoDrive {
 
 	}
 
-	// ajaa ja etsii etsii esinett‰
+	/**
+	 *  This methods drives and seeks the linear sight to object.
+	 */
+	
 	public void homing() {
 		drive++;
 		Delay.msDelay(10);

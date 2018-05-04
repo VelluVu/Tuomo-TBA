@@ -10,7 +10,7 @@ import lejos.hardware.Sound;
  * Musiikki class of the Lego mindstorm program.
  * Uses thread to play music.
  * 
- * @author Vellu
+ * @author Veli-Matti Vuoti
  * @version 2.0
  * @since 3.5.2018
  */
