@@ -13,7 +13,7 @@ import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.utility.Delay;
 
-public class EV3Receive {
+public class RemoteContorl {
 
 	private Socket s;
 	private ServerSocket serv;
@@ -23,7 +23,7 @@ public class EV3Receive {
 	private EV3LargeRegulatedMotor left, right;
 	private EV3MediumRegulatedMotor clawMotor, liftMotor;
 
-	public EV3Receive() {
+	public RemoteContorl() {
 
 		this.left = new EV3LargeRegulatedMotor(MotorPort.D);
 		this.right = new EV3LargeRegulatedMotor(MotorPort.A);
@@ -47,7 +47,7 @@ public class EV3Receive {
 		} catch (IOException e) {
 		}
 
-		// Avaa data input streamin
+		// Avaa data input ja output streamit.
 		try {
 			this.in = new DataInputStream(s.getInputStream());
 			this.out = new DataOutputStream(s.getOutputStream());
@@ -90,44 +90,23 @@ public class EV3Receive {
 
 			switch (controllerButtons) {
 			case 1:
-				if (clawTacho > -1780) {
-					clawMotor.backward();
-				} else {
-					clawMotor.stop(true);
-				}
+				clawMotor.rotateTo(-1800, true);
 				break;
 			case 2:
-				if (clawTacho < -85) {
-					clawMotor.forward();
-				} else {
-					clawMotor.stop(true);
-				}
+				clawMotor.rotateTo(0, true);
 				break;
 			case 3:
-				if (!isUp) {
-					if (liftTacho <= 73) {
-						liftMotor.forward();
-					} else {
-						liftMotor.stop(true);
-					}
-				}
-
-				if (isUp) {
-					if (liftTacho >= 1) {
-						liftMotor.backward();
-					} else {
-						liftMotor.stop(true);
-					}
+				
+				if(!isUp) {
+					liftMotor.rotateTo(40);
+					isUp = true;
+				} else {
+					liftMotor.rotateTo(0);
+					isUp = false;
 				}
 				break;
 			default:
-				if (liftTacho >= 73 && !isUp)
-					isUp = true;
-				if (liftTacho <= 1 && isUp)
-					isUp = false;
-
 				clawMotor.stop(true);
-				liftMotor.stop(true);
 			}
 
 			LCD.clear(4);

@@ -60,7 +60,7 @@ public class TuomoMain {
 
 			if (Button.LEFT.isDown()) {
 				LCD.clear();
-				EV3Receive manual = new EV3Receive();
+				RemoteContorl manual = new RemoteContorl();
 				manual.startManualControl();
 
 
@@ -95,7 +95,6 @@ public class TuomoMain {
 			}
 			LCD.refresh();
 			Delay.msDelay(100);
-
 		}
 
 		music.interrupt();
