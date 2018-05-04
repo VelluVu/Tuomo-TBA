@@ -13,6 +13,14 @@ import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.MotorPort;
 import lejos.utility.Delay;
 
+/**
+ * This class is used to receive remote commands from the computer via bluetooth.
+ * 
+ * @author Joonas
+ * @version 2.0
+ * @since 4.5.2018
+ */
+
 public class RemoteContorl {
 
 	private Socket s;
@@ -22,7 +30,9 @@ public class RemoteContorl {
 
 	private EV3LargeRegulatedMotor left, right;
 	private EV3MediumRegulatedMotor clawMotor, liftMotor;
-
+	/**
+	 * initialize variables.
+	 */
 	public RemoteContorl() {
 
 		this.left = new EV3LargeRegulatedMotor(MotorPort.D);
@@ -32,7 +42,9 @@ public class RemoteContorl {
 		this.liftMotor = new EV3MediumRegulatedMotor(MotorPort.B);
 
 	}
-
+	/**
+	 * This method starts the manual control.
+	 */
 	public void startManualControl() {
 
 		// Tekee uuden socketin ja j‰‰ odottamaan ett‰
@@ -137,8 +149,13 @@ public class RemoteContorl {
 		liftMotor.close();
 		clawMotor.close();
 	}
-
-	// Asettaa moottorien tehot ohjaimen arvojen mukaan.
+	
+	/**
+	 * This method sets motor powers to match controllers values.
+	 * @param leftM This is left motor
+	 * @param rightM This is right motor
+	 */
+	
 	public void drive(float leftM, float rightM) {
 
 		float max = left.getMaxSpeed();
